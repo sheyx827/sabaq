@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8"><title>Sabaq — semestrga tayyorgarlik</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#faf7ff;--card:#fff;--tx:#1f2330;--mu:#6b6f80;--ac:#7c3aed;--ok:#16a34a;--no:#dc2626;--bd:#e9e3f7;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161f;--card:#1e2230;--tx:#eceef6;--mu:#9aa0b4;--bd:#2d3349}}
+:root[data-theme="dark"]{--bg:#14161f;--card:#1e2230;--tx:#eceef6;--mu:#9aa0b4;--bd:#2d3349}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:26px;margin:8px 0 4px}p.s,.m{color:var(--mu);margin:0 0 14px;font-size:14px}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin:14px 0}
+input,select{width:100%;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
+button{font:inherit;border:0;border-radius:10px;padding:12px 16px;background:var(--ac);color:#fff;cursor:pointer}
+button.g{background:transparent;color:var(--tx);border:1px solid var(--bd)}button:disabled{opacity:.5}
+.r{display:flex;gap:8px}.h{display:none!important}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:22px;margin:22px 0;padding:22px 14px 26px;border-bottom:10px solid #8a6a46;border-radius:6px;background:linear-gradient(var(--bg),rgba(138,106,70,.12))}
+.book{position:relative;aspect-ratio:3/4;border-radius:4px 10px 10px 4px;color:#fff;padding:16px 14px 14px 26px;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;box-shadow:inset 10px 0 0 rgba(0,0,0,.22),inset 12px 0 0 rgba(255,255,255,.12),4px 6px 14px rgba(0,0,0,.28);transition:transform .15s}
+.book:hover{transform:translateY(-6px) rotate(-1deg)}
+.book::after{content:"";position:absolute;right:0;top:4px;bottom:4px;width:5px;background:repeating-linear-gradient(#fff8,#fff8 2px,#ddd8 2px,#ddd8 4px);border-radius:0 3px 3px 0}
+.book h3{margin:0;font:700 18px/1.25 Georgia,serif;word-break:break-word}.book small{opacity:.85}
+.book .x{position:absolute;top:4px;right:10px;opacity:.6;font-size:13px;z-index:2}
+.tabs{display:flex;gap:8px;margin:12px 0}.tabs button{flex:1;background:var(--card);color:var(--tx);border:1px solid var(--bd)}.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.hd{border-radius:12px;color:#fff;padding:18px 20px;font:700 22px Georgia,serif;margin-top:10px}
+.top{display:flex;justify-content:space-between;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:2}
+.t{font-size:22px;font-weight:700;color:var(--ac)}
+.o{display:block;width:100%;text-align:left;margin:8px 0;background:var(--bg);color:var(--tx);border:1px solid var(--bd)}
+.o.ok{background:var(--ok);color:#fff}.o.no{background:var(--no);color:#fff}
+.tag{font-size:12px;color:var(--ac);font-weight:700;text-transform:uppercase}
+.msg{padding:12px 14px;border-radius:12px;margin:10px 0;white-space:pre-wrap;max-width:92%}
+.msg.u{background:var(--ac);color:#fff;margin-left:auto}.msg.a{background:var(--card);border:1px solid var(--bd)}
+textarea{width:100%;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.chip{padding:6px 12px;border-radius:99px;border:1px solid var(--bd);cursor:pointer;font-size:14px;background:var(--bg)}
+#intro{position:fixed;inset:0;z-index:99;background:radial-gradient(circle at 50% 40%,#3730a3,#1e1b4b 70%);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;transition:opacity .6s}
+#intro.out{opacity:0;pointer-events:none}
+#intro .lgo{width:150px;height:125px;overflow:visible;filter:drop-shadow(0 0 22px #818cf8aa)}
+.pl,.pr,.sp{transform-box:fill-box}.pl{transform-origin:right center;animation:op 1.1s .3s cubic-bezier(.2,.8,.2,1) both}.pr{transform-origin:left center;animation:op 1.1s .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes op{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.sp{transform-origin:center;animation:sp 1s 1.1s cubic-bezier(.3,1.6,.5,1) both,tw 2.5s 2.2s ease-in-out infinite}
+@keyframes sp{from{transform:scale(0) rotate(-90deg)}to{transform:scale(1) rotate(0)}}@keyframes tw{50%{transform:scale(1.25) rotate(15deg)}}
+.pt{position:absolute;left:50%;top:44%;font-size:26px;opacity:0;animation:fl 2.2s ease-out both}
+@keyframes fl{0%{opacity:0;transform:translate(-50%,0) scale(.3)}25%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--x)),var(--y)) scale(1.1) rotate(var(--r))}}
+#intro h1{font:700 54px Georgia,serif;letter-spacing:2px;margin:14px 0 4px;animation:up .9s 2s both}
+#intro p{margin:0;opacity:.85;font-size:17px;animation:up .9s 2.5s both}
+#intro button{margin-top:26px;background:#fbbf24;color:#1e1b4b;font-weight:700;padding:13px 34px;border-radius:99px;animation:up .8s 3s both}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+#intro.quick *{animation-duration:.4s!important;animation-delay:0s!important}
+.brand{display:flex;align-items:center;gap:12px}.brand .lgo{width:54px;height:46px}.brand h1{font:700 32px Georgia,serif;margin:0}
+body{background:radial-gradient(circle at 8% 0,rgba(236,72,153,.18),transparent 42%),radial-gradient(circle at 95% 8%,rgba(6,182,212,.18),transparent 40%),radial-gradient(circle at 50% 100%,rgba(251,191,36,.14),transparent 45%),var(--bg);background-attachment:fixed}
+.c{position:relative;border-radius:20px;box-shadow:0 6px 22px rgba(124,58,237,.1)}
+#add,#go,#send,#again,.tabs button.on{background:linear-gradient(135deg,#7c3aed,#ec4899);border-color:transparent;box-shadow:0 4px 14px rgba(236,72,153,.3)}
+button{border-radius:14px;transition:transform .12s}button:active{transform:scale(.97)}.o:hover{border-color:var(--ac)}
+.o.ok{background:linear-gradient(135deg,#10b981,#22c55e)}.o.no{background:linear-gradient(135deg,#f43f5e,#fb923c)}
+.chip{border-radius:99px;padding:7px 14px}.tag{background:rgba(124,58,237,.12);display:inline-block;padding:2px 10px;border-radius:99px}
+.pat{position:absolute;inset:-30%;font-size:24px;line-height:1.9;opacity:.2;transform:rotate(-14deg);pointer-events:none;word-break:break-all;text-align:center}
+.book h3,.book .big{position:relative;z-index:1;text-shadow:0 2px 6px rgba(0,0,0,.25)}.book{overflow:hidden;border-radius:6px 16px 16px 6px}
+.book .big{font-size:40px;align-self:flex-end;line-height:1}.book .x{color:#fff}
+.hd{position:relative;overflow:hidden;border-radius:18px;box-shadow:0 8px 24px rgba(124,58,237,.25)}.hd .pat{font-size:20px}.hd b{position:relative;text-shadow:0 2px 6px rgba(0,0,0,.25)}
+.shelf{background:none;border-bottom-color:#c4a07a}
+.cf{position:absolute;left:50%;top:40%;pointer-events:none;font-size:20px;animation:cf 1s ease-out forwards}
+@keyframes cf{to{transform:translate(var(--x),-90px) rotate(var(--r));opacity:0}}
+.book .x{opacity:1;font-size:15px;top:6px;right:8px;padding:3px 9px;background:rgba(0,0,0,.28);border-radius:99px}
+.dl{position:absolute;inset:0;z-index:5;background:rgba(25,12,50,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px;text-align:center}
+.dl button{padding:8px 14px;font-size:14px;width:100%}
+.tabs{gap:6px}.tabs button{padding:10px 2px;font-size:13px}
+.dt{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--bd);margin-left:4px}.dt.on{background:#f59e0b}
+.bar{height:10px;border-radius:9px;background:var(--bd);margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#f59e0b,#ec4899);transition:width .4s}
+.tabs button{font-size:12px}
+.b{display:inline-flex;flex-direction:column;align-items:center;width:84px;text-align:center;font-size:11px;margin:6px 2px;opacity:.35;filter:grayscale(1)}.b.on{opacity:1;filter:none}.b span{font-size:30px}
+.ts{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#1e1b4b;color:#fff;padding:12px 18px;border-radius:14px;z-index:90;max-width:90%;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.3);animation:up .4s both}
+.pom{display:flex;align-items:center;gap:10px;padding:10px 14px;margin:10px 0}.pom .t{flex:1}.pom button{padding:8px 14px}
+</style></head><body><div id="intro"><div style="position:relative;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 120 100" class="lgo"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#6d28d9"/></linearGradient></defs><path class="pl" d="M60 86C48 74 26 72 10 76V26c16-4 38-2 50 10z" fill="url(#gg)"/><path class="pr" d="M60 86c12-12 34-14 50-10V26C94 22 72 24 60 36z" fill="url(#gg)" opacity=".85"/><path d="M60 36v50" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><path class="sp" d="M60 4l5 13 13 5-13 5-5 13-5-13-13-5 13-5z" fill="#fbbf24"/></svg><span class="pt" style="--x:-130px;--y:-170px;--r:-40deg;animation-delay:1.1s">∑</span><span class="pt" style="--x:120px;--y:-190px;--r:30deg;animation-delay:1.25s">π</span><span class="pt" style="--x:-190px;--y:-70px;--r:-25deg;animation-delay:1.4s">⚛️</span><span class="pt" style="--x:180px;--y:-60px;--r:40deg;animation-delay:1.5s">🧬</span><span class="pt" style="--x:-60px;--y:-230px;--r:20deg;animation-delay:1.65s">A+</span><span class="pt" style="--x:70px;--y:-240px;--r:-30deg;animation-delay:1.8s">✦</span><span class="pt" style="--x:-150px;--y:40px;--r:35deg;animation-delay:1.95s">📐</span><span class="pt" style="--x:150px;--y:50px;--r:-35deg;animation-delay:2.1s">💡</span><h1>Sabaq</h1><p>Bugungi mashq — ertangi muvaffaqiyat</p><button id="enter">Boshlash ▶</button></div></div>
+<main>
+
+<section id="home">
+<div class="brand"><svg viewBox="0 0 120 100" class="lgo"><defs><linearGradient id="gh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#6d28d9"/></linearGradient></defs><path class="pl" d="M60 86C48 74 26 72 10 76V26c16-4 38-2 50 10z" fill="url(#gh)"/><path class="pr" d="M60 86c12-12 34-14 50-10V26C94 22 72 24 60 36z" fill="url(#gh)" opacity=".85"/><path d="M60 36v50" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><path class="sp" d="M60 4l5 13 13 5-13 5-5 13-5-13-13-5 13-5z" fill="#fbbf24"/></svg><h1>Sabaq</h1></div><div class="c" id="stk"></div><div class="c" id="bdg"></div><h2 style="font-size:18px;margin:14px 0 2px">📚 Mening kitoblarim</h2>
+<p class="s">Semestr fanlaringizni qo'shing — har bir fan alohida kitob bo'ladi. Kitobni bosing va tayyorlaning.</p>
+<div class="r"><input id="in" placeholder="Fan nomi, masalan: Oliy matematika"><button id="add">Qo'shish</button></div>
+<div class="shelf" id="shelf"></div>
+<p class="m" id="empty">Hozircha kitob yo'q. Yuqoriga birinchi fanni kiriting.</p>
+</section>
+
+<section id="subj" class="h">
+<button class="g" id="back">← Kitoblarga qaytish</button>
+<div class="hd" id="hd"></div>
+<div class="c pom"><span id="pmd" class="m" style="margin:0"></span><span class="t" id="ptm"></span><button id="pgo" class="g"></button><button id="prs" class="g">↺</button></div>
+<div class="tabs"><button id="t1" class="on">🎯 Mashq</button><button id="t3">🃏 Kartalar</button><button id="t4">📝 Imtihon</button><button id="t5">📄 Varaq</button><button id="t2">💬 Savol</button></div>
+
+<div id="prep">
+ <div class="c" id="cfg">
+  <p class="m">📌 Mavzu (ixtiyoriy — bo'sh qolsa fan bo'yicha aralash)</p>
+  <div class="r"><input id="topic" placeholder="Masalan: Hosila"><button class="g" id="sug">💡 Mavzularni taklif qil</button></div>
+  <div class="chips" id="tl"></div><p class="m" id="sg"></p>
+  <p class="m">📅 Imtihon sanasi</p><input type="date" id="exam"><p class="m" id="plan"></p>
+  <p class="m">📝 Konspekt (ixtiyoriy — savollar shundan tuziladi)</p><textarea id="notes" rows="4" placeholder="O'qituvchi bergan matn yoki konspektni shu yerga qo'ying…"></textarea>
+  <input type="file" id="pic" accept="image/*" multiple style="display:none"><button class="g" id="picb" style="width:100%;margin-top:8px">📷 Daftar suratini yuklash (3 tagacha)</button><button class="g" id="permb" style="width:100%;margin-top:6px">🔐 Ruxsatlarni ochish</button><p class="m" id="pinfo">Daftaringizni suratga oling, sayt matnni o'qib konspektga qo'shadi.</p>
+  <button class="g" id="wr" style="width:100%;margin:10px 0"></button>
+  <p class="m">Qancha vaqt ajratasiz?</p>
+  <select id="min"><option value="15">15 daqiqa</option><option value="30" selected>30 daqiqa</option><option value="60">1 soat</option><option value="90">1.5 soat</option><option value="120">2 soat</option></select>
+  <p class="m" style="margin-top:12px">Qiyinlik darajasi</p>
+  <select id="lv"><option>oson</option><option selected>o'rta</option><option>qiyin</option></select>
+  <p><button id="go" style="width:100%">Boshlash ▶</button></p><p class="m" id="e2"></p>
+ </div>
+ <div id="run" class="h">
+  <div class="top"><span class="t" id="tm">00:00</span><button class="g" id="stop">Tugatish</button></div>
+  <div id="feed"></div><p id="ld" class="m h">⏳ Tayyorlanmoqda…</p>
+  <button id="more" class="g" style="width:100%">Yana tushuncha va savollar</button>
+ </div>
+ <div class="c h" id="fin"><b>Vaqt tugadi! 🎉</b><p id="res"></p><button id="again" style="width:100%">Yana mashq qilish</button></div>
+</div>
+
+<div id="chat" class="h">
+ <p class="m">Darsda tushunmagan yoki bilmagan narsangizni yozing — oddiy tilda, misollar bilan tushuntiraman.</p>
+ <div id="msgs"></div>
+ <div class="r"><input id="q" placeholder="Savolingizni yozing…"><button id="send">Yuborish</button></div>
+ <p class="m" id="e3"></p>
+</div>
+<div id="pcards" class="h"><div class="c"><b>🃏 Kartochkalar</b><p class="m" id="cinfo"></p><div class="r"><button id="cgen" class="g" style="flex:1">✨ Kartochkalar yasash</button><button id="cstart" style="flex:1">Takrorlash ▶</button></div><p class="m" style="margin-top:10px">Bilmagan kartangiz tez-tez, bilganingiz esa kundan-kunga kamroq so'raladi — shunday yodlash ancha kuchli bo'ladi.</p></div><div id="cbox"></div></div>
+<div id="pcheat" class="h"><div class="c"><b>📄 Shpargalka (formulalar varag'i)</b><p class="m">Imtihon oldidan bir qarashda ko'riladigan qisqa xulosa. Mavzu yozilgan bo'lsa shu mavzudan, bo'lmasa fan bo'yicha tuziladi.</p><button id="hgen" style="width:100%">✨ Varaq yaratish</button><p class="m" id="hinfo"></p><div class="chips" id="hl"></div></div><div id="hout"></div></div>
+<div id="pexam" class="h"><div class="c" id="xcfg"><b>📝 Imtihon simulyatori</b><p class="m" id="xinfo"></p><select id="xn"><option value="10">10 ta savol · 15 daqiqa</option><option value="20" selected>20 ta savol · 30 daqiqa</option><option value="30">30 ta savol · 45 daqiqa</option></select><p><button id="xgo" style="width:100%">Imtihonni boshlash ▶</button></p><p class="m" id="xe"></p></div>
+<div id="xrun" class="h"><div class="top"><span class="t" id="xtm"></span><button id="xfin">Topshirish ✓</button></div><div id="xq"></div></div><div class="c h" id="xres"></div></div>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const COL=['#7c3aed,#ec4899','#0ea5e9,#6366f1','#f59e0b,#ef4444','#10b981,#0ea5e9','#d946ef,#f97316','#14b8a6,#22c55e','#f43f5e,#a855f7'];
+const TH=[[/informat|dastur|kompyut|algoritm|\bit\b|web|python|axborot/,'💻 </> ⌨️ 🖱️ { }'],[/mat|algebra|geometr|hisob|analiz|statist|calcul/,'∑ π ➕ 📐 √ ∞ ✖️'],[/fizik|mexanik|elektr|optik/,'⚛️ 🔭 ⚡ 🧲 🚀'],[/kimyo|kimyoviy/,'🧪 ⚗️ 🔬 💧 🧫'],[/biolog|anatom|tibb|zoolog|botan|ekolog/,'🧬 🌿 🫀 🦋 🔬'],[/tarix|arxeolog|madaniyat/,'🏛️ 📜 ⚔️ 🏺 👑'],[/geograf|geolog|xarita/,'🌍 🧭 🗺️ ⛰️ 🌊'],[/ingliz|rus|nemis|\btil\b|adabiyot|lingv|filolog|savod/,'🔤 ✍️ 📖 💬 Aa'],[/iqtisod|moliya|buxgalter|marketing|menejment|biznes/,'💰 📈 🪙 🏦 📊'],[/falsafa|psixolog|pedagog|huquq|siyosat|sotsiolog/,'🧠 ⚖️ 💭 🕊️ 🤝'],[/sport|jismoniy/,'🏅 ⚽ 🏃 🏀 💪'],[/san'at|musiqa|dizayn|chizma|rasm/,'🎨 🎵 ✏️ 🎭 🖌️']];
+function theme(n){n=n.toLowerCase();for(const[r,e]of TH)if(r.test(n))return e.split(' ');return['✨','📚','💡','🌟','🎯']}
+const patOf=E=>Array.from({length:70},(_,i)=>E[i%E.length]).join(' ');
+const col=i=>'linear-gradient(135deg,'+COL[i%COL.length]+')';
+let subs=[],cur=-1,sample=null,iv=null,left=0,busy=false;
+let st={};try{st=JSON.parse(localStorage.getItem('st')||'{}')}catch(e){}
+const persist=()=>{try{localStorage.setItem('st',JSON.stringify(st))}catch(e){}}; // fan bo'yicha holat: seen, score, hist
+try{subs=JSON.parse(localStorage.getItem('subs')||'[]')}catch(e){}
+const S=()=>st[subs[cur]]||(st[subs[cur]]={seen:[],score:[0,0],hist:[],topics:[],wrong:[],exam:'',notes:''});
+const save=()=>{try{localStorage.setItem('subs',JSON.stringify(subs))}catch(e){}};
+const esc=t=>{const d=document.createElement('div');d.textContent=t;return d.innerHTML};
+const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+
+function shelf(){
+ $('shelf').innerHTML='';$('empty').classList.toggle('h',subs.length>0);$('shelf').classList.toggle('h',!subs.length);
+ subs.forEach((s,i)=>{
+  const b=document.createElement('div');b.className='book';b.style.background=col(i);
+  const E=theme(s);b.innerHTML='<div class="pat">'+patOf(E)+'</div><h3>'+esc(s)+'</h3><span class="big">'+E[0]+'</span>';
+  const x=document.createElement('span');x.className='x';x.textContent='✕';
+  x.onclick=e=>{e.stopPropagation();const o=document.createElement('div');o.className='dl';o.innerHTML='<b>O\'chirilsinmi?</b>';
+   const y=document.createElement('button');y.textContent='Ha, o\'chir';y.onclick=ev=>{ev.stopPropagation();subs.splice(i,1);delete st[s];persist();save();shelf();hdr()};
+   const n=document.createElement('button');n.className='g';n.style.color='#fff';n.textContent='Yo\'q';n.onclick=ev=>{ev.stopPropagation();o.remove()};o.append(y,n);b.appendChild(o)};
+  b.appendChild(x);b.onclick=()=>open(i);$('shelf').appendChild(b);
+ });
+}
+function add(){const v=$('in').value.trim();if(!v)return;if(!subs.includes(v))subs.push(v);$('in').value='';save();shelf()}
+$('add').onclick=add;$('in').onkeydown=e=>{if(e.key==='Enter')add()};
+
+function open(i){
+ cur=i;clearInterval(iv);$('home').classList.add('h');$('subj').classList.remove('h');
+ $('hd').innerHTML='<div class="pat">'+patOf(theme(subs[i]))+'</div><b>'+theme(subs[i])[0]+' '+esc(subs[i])+'</b>';$('hd').style.background=col(i);
+ $('feed').innerHTML='';$('cfg').classList.remove('h');$('run').classList.add('h');$('fin').classList.add('h');
+ $('msgs').innerHTML='';S().hist.forEach(m=>bubble(m.role==='user'?'u':'a',m.show||m.content));
+ if(xs)clearInterval(xs.iv);xs=null;$('xrun').classList.add('h');$('xres').classList.add('h');$('xcfg').classList.remove('h');$('cbox').innerHTML='';$('topic').value='';$('exam').value=S().exam;$('notes').value=S().notes;$('more').classList.remove('h');renderTopics();plan();tab(1);
+}
+function tab(n){['prep','chat','pcards','pexam','pcheat'].forEach((k,i)=>$(k).classList.toggle('h',i+1!==n));if(n===5)showCheat();[1,2,3,4,5].forEach(i=>$('t'+i).classList.toggle('on',i===n));
+ if(n===3)renderCards();if(n===4)$('xinfo').textContent='Fan: '+subs[cur]+' · Mavzu: '+(TOP()||'aralash')+". Javoblar oxirida ko'rsatiladi, vaqt cheklangan — haqiqiy imtihondagidek."}
+$('t5').onclick=()=>tab(5);$('t3').onclick=()=>tab(3);$('t4').onclick=()=>tab(4);$('t1').onclick=()=>tab(1);$('t2').onclick=()=>tab(2);
+$('back').onclick=()=>{clearInterval(iv);$('subj').classList.add('h');$('home').classList.remove('h');if(xs)clearInterval(xs.iv);shelf();hdr()};
+
+const b64=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(b)});
+const apiSample=Object.assign(async(input,o={})=>{
+ const messages=typeof input==='string'?[{role:'user',content:input}]:input;
+ const images=o.images?await Promise.all(o.images.map(b64)):[];
+ let r,d;try{r=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages,images})});d=await r.json()}catch(e){throw{code:'network',message:'Server bilan aloqa yo\'q'}}
+ if(!r.ok)throw{code:d.code||'error',message:d.error||('Xato '+r.status)};
+ if(o.onText)o.onText({text:d.text,delta:d.text});return{text:d.text,truncated:false}},
+ {json:async(i,o)=>{const r=await apiSample(i,o);const t=r.text.replace(/```json|```/g,'').trim();try{return JSON.parse(t)}catch(e){const m=t.match(/\{[\s\S]*\}/);if(m)return JSON.parse(m[0]);throw{code:'invalid_json',message:'Javob JSON emas'}}},
+ limits:async()=>({images:{mediaTypes:['image/jpeg']}})});
+async function getSample(el){
+ if(!sample){let c=null;try{c=window.claude?await claude.use('sample'):null}catch(e){}sample=c||apiSample}
+ return sample}
+const WHY="Har bir tushuntirishda talabaga bu bilim kelajakdagi kasbi va hayotida qanday foyda berishini bir gap bilan ayt.";
+
+const TOP=()=>$('topic').value.trim();
+const pct=t=>t.s[1]?Math.round(t.s[0]/t.s[1]*100):0;
+function getT(n){const d=S();let t=d.topics.find(x=>x.n===n);if(!t){t={n,s:[0,0]};d.topics.push(t)}return t}
+function renderTopics(){const d=S();$('tl').innerHTML='';
+ d.topics.forEach(t=>{const c=document.createElement('span');c.className='chip';const p=pct(t);
+  c.style.background=`linear-gradient(90deg,rgba(22,163,74,.3) ${p}%,transparent ${p}%)`;
+  c.textContent=t.n+(t.s[1]?' · '+p+'%':'');c.onclick=()=>{$('topic').value=t.n};$('tl').appendChild(c)});
+ $('wr').textContent='🔁 Xatolar ustida ishlash ('+d.wrong.length+')';$('wr').disabled=!d.wrong.length}
+function plan(){const d=S(),e=$('plan');if(!d.exam){e.textContent='';return}
+ const days=Math.ceil((new Date(d.exam)-new Date().setHours(0,0,0,0))/864e5);
+ if(days<0){e.textContent="Imtihon sanasi o'tib ketgan.";return}
+ const weak=d.topics.filter(t=>t.n!=='Aralash'&&(t.s[1]<3||pct(t)<80));
+ let t=days===0?'Imtihon bugun! Asosiy narsalarni takrorlang. 💪':`⏳ Imtihongacha ${days} kun qoldi.`;
+ if(weak.length&&days>0)t+=` Mustahkamlash kerak: ${weak.length} ta mavzu — kuniga ${Math.ceil(weak.length/days)} tadan o'tsangiz yetadi.`;
+ else if(!d.topics.length)t+=" «Mavzularni taklif qil» tugmasi bilan reja tuzing.";
+ else if(!weak.length)t+=' Barcha mavzular yaxshi o\'zlashtirilgan, takrorlab turing! 🎉';
+ e.textContent=t}
+$('exam').onchange=()=>{S().exam=$('exam').value;persist();plan()};
+$('notes').oninput=()=>{S().notes=$('notes').value;persist()};
+$('sug').onclick=async()=>{const s=await getSample($('sg'));if(!s)return;$('sug').disabled=true;$('sg').textContent='⏳ Mavzular tuzilmoqda…';
+ try{const r=await s.json(`1-kurs talabasi uchun "${subs[cur]}" fanining asosiy mavzularini o'zbek tilida (lotin) mantiqiy tartibda 8-10 ta qisqa nom bilan ber. Faqat JSON: {"topics":["",""]}`,{cache:false});
+  (r.topics||[]).forEach(n=>getT(n));persist();renderTopics();plan();$('sg').textContent='Mavzuni bosib tanlang.'}catch(e){$('sg').textContent='Xatolik: '+(e.message||e.code||e)}
+ $('sug').disabled=false};
+function pop(el){['🎉','⭐','✨','💜','🌟','🎊'].forEach((e,i)=>{const c=document.createElement('span');c.className='cf';c.textContent=e;c.style.cssText=`--x:${(i-2.5)*34}px;--r:${(i%2?1:-1)*40}deg`;el.appendChild(c);setTimeout(()=>c.remove(),1000)})}
+function renderQ(q,fw,tp){
+ const d=S(),el=document.createElement('div');el.className='c';
+ el.innerHTML='<div class="tag">Savol'+(tp?' · '+esc(tp):'')+'</div><p style="margin:6px 0"><b>'+esc(q.q)+'</b></p>';
+ const ex=document.createElement('div');ex.className='m h';ex.textContent='💡 '+(q.explain||'');let done=false;
+ q.options.forEach((o,i)=>{const b=document.createElement('button');b.className='o';b.textContent=o;
+  b.onclick=()=>{if(done)return;done=true;const ok=i===q.answer;d.score[1]++;const t=getT(tp||'Aralash');t.s[1]++;
+   if(ok){d.score[0]++;t.s[0]++;b.classList.add('ok');if(fw)d.wrong=d.wrong.filter(w=>w.q!==q.q)}
+   else{b.classList.add('no');el.querySelectorAll('.o')[q.answer].classList.add('ok');if(!d.wrong.some(w=>w.q===q.q))d.wrong.push({q:q.q,options:q.options,answer:q.answer,explain:q.explain,tp})}
+   const PR=['Barakalla! 🎉','Ajoyib! ⭐','Zo\'r ketayapsiz! 🚀','Mukammal! 💜','Qoyil! 🔥'];
+   ex.textContent=(ok?PR[Math.floor(Math.random()*PR.length)]:'Hechqisi yo\'q — xato ham o\'rganish yo\'li! 💪')+'  💡 '+(q.explain||'');if(ok)pop(el);
+   ex.classList.remove('h');persist();renderTopics();act()};el.appendChild(b)});
+ el.appendChild(ex);$('feed').appendChild(el)}
+async function load(){
+ if(busy)return;const s=await getSample($('e2'));if(!s)return;
+ busy=true;$('ld').classList.remove('h');$('more').disabled=true;const d0=S(),tp=window.curTp;
+ const p=`Sen mehribon va tajribali universitet ustozisan. Talaba 1-kurs. Fan: "${subs[cur]}". ${tp?`Mavzu: "${tp}" — hammasi faqat shu mavzudan bo'lsin.`:"Fanning turli mavzularidan aralash tayyorla."} Daraja: ${$('lv').value}.
+${d0.notes.trim()?`Faqat quyidagi konspekt asosida tayyorla:\n"""${d0.notes.slice(0,6000)}"""\n`:''}O'zbek tilida (lotin) 3 ta yangi muhim tushuncha va 4 ta test savoli tayyorla. Tushunchalar sodda, aniq va hayotiy misolli bo'lsin. ${WHY} Buni tushunchaning oxirida "🚀 Hayotingizda:" bilan boshlab yoz.
+Allaqachon berilgan (takrorlama): ${d0.seen.slice(-30).join('; ')||"yo'q"}.
+Faqat JSON: {"concepts":[{"title":"","text":"3-5 gap + misol + 🚀 Hayotingizda: ..."}],"questions":[{"q":"","options":["","","",""],"answer":0,"explain":"qisqa izoh"}]}
+"answer" - to'g'ri variant indeksi (0-3), turlicha joylashsin.`;
+ try{
+  const d=await s.json(p,{cache:false});
+  (d.concepts||[]).forEach(c=>{d0.seen.push(c.title);const el=document.createElement('div');el.className='c';
+   el.innerHTML='<div class="tag">Tushuncha</div><h3 style="margin:6px 0">'+esc(c.title)+'</h3><div style="white-space:pre-wrap">'+esc(c.text)+'</div>';
+   const ask=document.createElement('button');ask.className='g';ask.style.marginTop='10px';ask.textContent='🤔 Tushunmadim';
+   ask.onclick=()=>{tab(2);$('q').value='"'+c.title+'" tushunchasini yanada soddaroq tushuntirib bering';$('q').focus()};const sv=document.createElement('button');sv.className='g';sv.style.cssText='margin:10px 0 0 8px';sv.textContent='🃏 Kartochkaga';sv.onclick=()=>{addCard(c.title,c.text);sv.textContent='✅ Saqlandi';sv.disabled=true};const sm=document.createElement('button');sm.className='g';sm.style.cssText='margin:10px 0 0 8px';sm.textContent='🧒 Oddiy qilib';const so=document.createElement('div');so.className='m';so.style.cssText='white-space:pre-wrap;margin-top:10px';sm.onclick=()=>simple(c,so,sm);el.appendChild(ask);el.appendChild(sv);el.appendChild(sm);el.appendChild(so);$('feed').appendChild(el)});
+  (d.questions||[]).forEach(q=>renderQ(q,false,tp));persist();
+ }catch(e){const p=document.createElement('p');p.className='m';p.textContent='Xatolik: '+(e.message||e.code||e)+'. "Yana" tugmasini bosing.';$('feed').appendChild(p)}
+ busy=false;$('ld').classList.add('h');$('more').disabled=false;
+}
+$('wr').onclick=()=>{clearInterval(iv);$('feed').innerHTML='';$('cfg').classList.add('h');$('fin').classList.add('h');$('run').classList.remove('h');$('more').classList.add('h');$('tm').textContent='🔁 Xatolar';
+ S().wrong.forEach(w=>renderQ(w,true,w.tp))};
+function finish(){clearInterval(iv);$('run').classList.add('h');$('fin').classList.remove('h');const d=S();
+ $('res').textContent=(d.score[1]?`Natija: ${d.score[1]} ta savoldan ${d.score[0]} tasi to'g'ri (${Math.round(d.score[0]/d.score[1]*100)}%). `:'')+`Ko'rilgan tushunchalar: ${d.seen.length}. Har kungi kichik qadam katta natijaga olib boradi — davom eting! 💪`}
+$('go').onclick=async()=>{
+ if(!await getSample($('e2')))return;
+ window.curTp=TOP();$('more').classList.remove('h');left=parseInt($('min').value)*60;$('feed').innerHTML='';$('cfg').classList.add('h');$('fin').classList.add('h');$('run').classList.remove('h');
+ $('tm').textContent=fmt(left);iv=setInterval(()=>{left--;$('tm').textContent=fmt(Math.max(left,0));if(left<=0)finish()},1000);load();
+};
+$('more').onclick=load;$('stop').onclick=finish;
+$('again').onclick=()=>{$('fin').classList.add('h');$('cfg').classList.remove('h');$('feed').innerHTML=''};
+
+function bubble(c,t){const m=document.createElement('div');m.className='msg '+c;m.textContent=t;$('msgs').appendChild(m);m.scrollIntoView({block:'nearest'});return m}
+async function ask(){
+ const q=$('q').value.trim();if(!q||busy)return;const s=await getSample($('e3'));if(!s)return;
+ $('q').value='';bubble('u',q);const h=S().hist;
+ const sys=`Sen "${subs[cur]}" fani bo'yicha mehribon, sabrli ustozsan. Talaba 1-kurs. O'zbek tilida (lotin) javob ber. Avval sodda tilda mohiyatini tushuntir, so'ng hayotiy misol keltir, kerak bo'lsa qadamma-qadam yech. Oxirida 🚀 bilan bu bilim talabaning kelajakdagi kasbi va hayotida qanday foydali ekanini ayt va 1 ta qisqa tekshiruv savoli ber. Aniq bilmagan narsangni to'qima. Talaba savoli/suhbat quyida.\n\n`;
+ const turns=h.map(m=>({role:m.role,content:m.content}));
+ turns.push({role:'user',content:(h.length?'':sys)+q});
+ busy=true;$('send').disabled=true;const w=bubble('a','⏳ Yozmoqda…');
+ try{const r=await s(turns,{cache:false,onText:({text})=>{w.textContent=text}});
+  w.textContent=r.text;h.push({role:'user',content:(h.length?'':sys)+q,show:q},{role:'assistant',content:r.text});
+ }catch(e){w.textContent='Xatolik: '+(e.message||e.code||e)}
+ busy=false;$('send').disabled=false;
+}
+$('send').onclick=ask;$('q').onkeydown=e=>{if(e.key==='Enter')ask()};
+
+let stk={};try{stk=JSON.parse(localStorage.getItem('stk')||'{}')}catch(e){}
+const day=(o=0)=>{const d=new Date();d.setDate(d.getDate()-o);return d.toLocaleDateString('sv')};
+function act(n=1){stk[day()]=(stk[day()]||0)+n;try{localStorage.setItem('stk',JSON.stringify(stk))}catch(e){}hdr()}
+function streak(){let c=0,o=stk[day()]?0:1;while(stk[day(o)]){c++;o++}return c}
+function hdr(){const t=stk[day()]||0,G=10;let due=0,wr=0;
+ subs.forEach(n=>{const d=st[n];if(d){due+=(d.cards||[]).filter(c=>c.due<=Date.now()).length;wr+=(d.wrong||[]).length}});
+ let dots='';for(let i=6;i>=0;i--)dots+=`<span class="dt${stk[day(i)]?' on':''}"></span>`;
+ $('stk').innerHTML=`<div class="r" style="align-items:center;justify-content:space-between"><b style="font-size:20px">🔥 ${streak()} kun ketma-ket</b><span>${dots}</span></div><div class="bar"><i style="width:${Math.min(100,t/G*100)}%"></i></div><div class="m" style="margin:6px 0 0">🎯 Bugungi maqsad: ${Math.min(t,G)}/${G} ${t>=G?'— bajarildi! 🎉':'(savol yoki kartochka)'}${due?` · 🃏 ${due} ta kartochka kutmoqda`:''}${wr?` · 🔁 ${wr} ta xato`:''}</div>`;badges()}
+const CD=()=>S().cards||(S().cards=[]),IV=[0,1,3,7,14,30];let queue=[],xs=null;
+function addCard(f,b){const cs=CD();if(cs.some(c=>c.f===f))return;cs.push({f,b,box:0,due:0});persist();hdr()}
+function renderCards(){const cs=CD(),n=cs.filter(c=>c.due<=Date.now()).length;$('cinfo').textContent=`Jami: ${cs.length} ta · Bugun takrorlash kerak: ${n} ta`;$('cstart').disabled=!n}
+$('cgen').onclick=async()=>{const s=await getSample($('cinfo'));if(!s)return;$('cgen').disabled=true;$('cinfo').textContent='⏳ Kartochkalar tayyorlanmoqda…';
+ const n=S().notes.trim(),tp=TOP();
+ try{const r=await s.json(`"${subs[cur]}" fani bo'yicha ${tp?`"${tp}" mavzusidan`:'turli mavzulardan'} 10 ta flesh-kartochka tayyorla (o'zbek, lotin). ${n?`Faqat konspekt asosida: """${n.slice(0,6000)}"""`:''} Old tomoni: qisqa savol, atama yoki formula nomi. Orqa tomoni: aniq javob (1-3 gap), imkon bo'lsa eslab qolish uchun qisqa mnemonika yoki misol. Bor kartalarni takrorlama: ${CD().slice(-30).map(c=>c.f).join('; ')||"yo'q"}. Faqat JSON: {"cards":[{"f":"","b":""}]}`,{cache:false});
+  (r.cards||[]).forEach(c=>addCard(c.f,c.b))}catch(e){$('cinfo').textContent='Xatolik: '+(e.message||e.code||e);$('cgen').disabled=false;return}
+ $('cgen').disabled=false;renderCards()};
+$('cstart').onclick=()=>{queue=CD().filter(c=>c.due<=Date.now());nextCard()};
+function nextCard(){const b=$('cbox');b.innerHTML='';const c=queue.shift();
+ if(!c){b.innerHTML='<div class="c"><b>Hozircha hammasi takrorlandi! 🎉</b><p class="m">Kartochkalar o\'z vaqtida qaytadi.</p></div>';renderCards();return}
+ const el=document.createElement('div');el.className='c';el.style.textAlign='center';
+ el.innerHTML=`<div class="tag">${queue.length+1} ta qoldi · ${c.box+1}-bosqich</div><h3 style="margin:14px 0">${esc(c.f)}</h3><div class="h" id="bk" style="white-space:pre-wrap;padding:12px;border-radius:12px;background:var(--bg)">${esc(c.b)}</div>`;
+ const show=document.createElement('button');show.textContent="Javobni ko'rsat";const row=document.createElement('div');row.className='r h';row.style.marginTop='12px';
+ [['😕 Bilmadim',0],['🙂 Qiyin',1],['😎 Oson',2]].forEach(([t,g])=>{const k=document.createElement('button');k.className='g';k.style.flex=1;k.textContent=t;
+  k.onclick=()=>{c.box=g===0?0:g===1?c.box:Math.min(5,c.box+1);c.due=g===0?Date.now():Date.now()+Math.max(IV[c.box],1)*864e5*(g===1?.5:1);if(g===0)queue.push(c);ach.cards++;saveA();persist();act();nextCard()};row.appendChild(k)});
+ show.onclick=()=>{$('bk').classList.remove('h');show.classList.add('h');row.classList.remove('h')};el.append(show,row);b.appendChild(el)}
+$('xgo').onclick=async()=>{const s=await getSample($('xe'));if(!s)return;const n=+$('xn').value,tp=TOP(),d=S(),parts=Math.ceil(n/10);$('xgo').disabled=true;$('xe').textContent='⏳ Imtihon savollari tayyorlanmoqda…';
+ try{const rs=await Promise.all(Array.from({length:parts},(_,i)=>s.json(`Universitet imtihoni uchun "${subs[cur]}" fani bo'yicha ${tp?`"${tp}" mavzusidan`:'turli mavzulardan'} ${Math.min(10,n-i*10)} ta test savoli tayyorla (o'zbek, lotin, qiyinlik: o'rta). Bu ${i+1}-qism (jami ${parts} qism): boshqa qismlar bilan takrorlanmasligi uchun shu qismga mos boshqa-boshqa kichik mavzularni tanla. ${d.notes.trim()?`Konspekt asosida: """${d.notes.slice(0,6000)}"""`:''} Faqat JSON: {"questions":[{"q":"","options":["","","",""],"answer":0,"explain":""}]} "answer" 0-3 indeks, turlicha.`,{cache:false})));
+  const qs=rs.flatMap(r=>r.questions||[]).slice(0,n);if(!qs.length)throw new Error('Savollar kelmadi');xs={qs,pick:qs.map(()=>-1),tp,left:Math.round(qs.length*1.5)*60}}
+ catch(e){$('xe').textContent='Xatolik: '+(e.message||e.code||e);$('xgo').disabled=false;return}
+ $('xgo').disabled=false;$('xe').textContent='';$('xcfg').classList.add('h');$('xres').classList.add('h');$('xrun').classList.remove('h');$('xfin').classList.remove('h');
+ const box=$('xq');box.innerHTML='';
+ xs.qs.forEach((q,qi)=>{const el=document.createElement('div');el.className='c';el.innerHTML=`<div class="tag">Savol ${qi+1}/${xs.qs.length}</div><p style="margin:6px 0"><b>${esc(q.q)}</b></p>`;
+  q.options.forEach((o,oi)=>{const b=document.createElement('button');b.className='o';b.textContent=o;b.onclick=()=>{xs.pick[qi]=oi;el.querySelectorAll('.o').forEach((x,k)=>x.style.outline=k===oi?'3px solid var(--ac)':'none')};el.appendChild(b)});box.appendChild(el)});
+ $('xtm').textContent=fmt(xs.left);xs.iv=setInterval(()=>{xs.left--;$('xtm').textContent=fmt(Math.max(xs.left,0));if(xs.left<=0)xdone()},1000)};
+function xdone(){if(!xs||xs.done)return;xs.done=true;clearInterval(xs.iv);const d=S();let ok=0;
+ xs.qs.forEach((q,i)=>{const good=xs.pick[i]===q.answer,t=getT(xs.tp||'Aralash');t.s[1]++;d.score[1]++;
+  if(good){ok++;t.s[0]++;d.score[0]++}else if(!d.wrong.some(w=>w.q===q.q))d.wrong.push({q:q.q,options:q.options,answer:q.answer,explain:q.explain,tp:xs.tp});
+  const el=$('xq').children[i],bs=el.querySelectorAll('.o');bs.forEach(b=>b.onclick=null);bs[q.answer].classList.add('ok');if(!good&&xs.pick[i]>=0)bs[xs.pick[i]].classList.add('no');
+  const ex=document.createElement('div');ex.className='m';ex.textContent=(xs.pick[i]<0?'⚪ Javob berilmagan. ':'')+'💡 '+(q.explain||'');el.appendChild(ex)});
+ const p=Math.round(ok/xs.qs.length*100),g=p>=86?"A'lo (5)":p>=71?'Yaxshi (4)':p>=55?'Qoniqarli (3)':'Qoniqarsiz (2)';
+ ach.exams++;saveA();act(xs.qs.length);persist();renderTopics();$('xfin').classList.add('h');$('xtm').textContent='Tugadi';
+ const r=$('xres');r.classList.remove('h');r.innerHTML=`<b style="font-size:20px">${p>=71?'🎉':'💪'} Natija: ${ok}/${xs.qs.length} — ${p}%</b><p>Taxminiy baho: <b>${g}</b></p><p class="m">Xato javoblar «Xatolar ustida ishlash» ro'yxatiga qo'shildi. Yuqorida har bir savol tahlili bor.</p>`;
+ const nb=document.createElement('button');nb.style.width='100%';nb.textContent='Yana imtihon topshirish';nb.onclick=()=>{$('xrun').classList.add('h');r.classList.add('h');$('xcfg').classList.remove('h')};r.appendChild(nb);r.scrollIntoView({behavior:'smooth'})}
+$('xfin').onclick=xdone;
+
+let ach={exams:0,cards:0,pomo:0,u:[]};try{ach=Object.assign(ach,JSON.parse(localStorage.getItem('ach')||'{}'))}catch(e){}
+const saveA=()=>{try{localStorage.setItem('ach',JSON.stringify(ach))}catch(e){}};
+function toast(t){const e=document.createElement('div');e.className='ts';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),3800)}
+const tot=()=>Object.values(st).reduce((a,d)=>[a[0]+d.score[0],a[1]+d.score[1]],[0,0]);
+const BD=[['🥇','Birinchi qadam',()=>tot()[1]>=1],['🎯',"10 ta to'g'ri",()=>tot()[0]>=10],['💯',"100 ta to'g'ri",()=>tot()[0]>=100],['🔥','3 kunlik seriya',()=>streak()>=3],['⚡','7 kunlik seriya',()=>streak()>=7],['🧠','Mavzu ustasi',()=>Object.values(st).some(d=>(d.topics||[]).some(t=>t.s[1]>=5&&pct(t)>=90))],['📝','Imtihonchi',()=>ach.exams>=1],['🃏','Kartochka ustasi',()=>ach.cards>=20],['🍅','Diqqat qahramoni',()=>ach.pomo>=3],['📚','Kutubxonachi',()=>subs.length>=3]];
+function badges(){let n=0;$('bdg').innerHTML='<b>🏆 Yutuqlar <span id="bn"></span></b><div id="bl"></div>';
+ BD.forEach(([e,t,f])=>{const ok=f();if(ok){n++;if(!ach.u.includes(t)){ach.u.push(t);saveA();toast('🏆 Yangi yutuq: '+t+'!')}}const b=document.createElement('div');b.className='b'+(ok?' on':'');b.innerHTML='<span>'+e+'</span>'+t;$('bl').appendChild(b)});
+ $('bn').textContent=`(${n}/${BD.length})`}
+async function simple(c,out,btn){const s=await getSample($('e2'));if(!s)return;btn.disabled=true;btn.textContent='⏳';
+ try{const r=await s([{role:'user',content:`"${c.title}" tushunchasini (${subs[cur]} fani) 1-kurs talabasiga juda oddiy tilda, 5-sinf o'quvchisi tushunadigan darajada, kundalik hayotdan bitta o'xshatish bilan 3-4 gapda o'zbek tilida (lotin) tushuntir. Asl izoh: ${c.text}`}],{cache:false});out.textContent='🧒 '+r.text}
+ catch(e){out.textContent='Xatolik: '+(e.message||e.code||e)}btn.disabled=false;btn.textContent='🧒 Oddiy qilib'}
+function showCheat(k){const d=S(),ch=d.cheat||(d.cheat={}),keys=Object.keys(ch);$('hl').innerHTML='';$('hout').innerHTML='';
+ keys.forEach(x=>{const c=document.createElement('span');c.className='chip';c.textContent=x;c.onclick=()=>showCheat(x);$('hl').appendChild(c)});
+ k=k&&ch[k]?k:keys[keys.length-1];if(!k)return;
+ const el=document.createElement('div');el.className='c';el.innerHTML='<div class="tag">'+esc(k)+'</div><div style="white-space:pre-wrap;margin-top:8px">'+esc(ch[k])+'</div>';
+ const b=document.createElement('button');b.className='g';b.style.marginTop='12px';b.textContent='📋 Nusxalash';
+ b.onclick=()=>{try{navigator.clipboard.writeText(ch[k]).then(()=>b.textContent='✅ Nusxalandi').catch(()=>b.textContent='Matnni belgilab nusxalang')}catch(e){b.textContent='Matnni belgilab nusxalang'}};el.appendChild(b);$('hout').appendChild(el)}
+$('hgen').onclick=async()=>{const s=await getSample($('hinfo'));if(!s)return;$('hgen').disabled=true;$('hinfo').textContent='⏳ Varaq tayyorlanmoqda…';const d=S(),tp=TOP(),n=d.notes.trim();
+ try{const r=await s([{role:'user',content:`"${subs[cur]}" fani ${tp?`"${tp}" mavzusi`:'asosiy mavzulari'} bo'yicha imtihon oldidan bir qarashda ko'riladigan QISQA shpargalka tayyorla (o'zbek, lotin): asosiy ta'riflar, formulalar yoki qoidalar, eslab qolish uchun mnemonikalar, tez-tez qilinadigan xatolar. Sarlavhalar emoji bilan, punktlar "•" bilan, markdown belgilari (#, *) ishlatma. Maksimal 250 so'z. ${n?`Konspekt asosida: """${n.slice(0,6000)}"""`:''}`}],{cache:false});
+  (d.cheat||(d.cheat={}))[tp||'Aralash']=r.text;persist();$('hinfo').textContent='';showCheat(tp||'Aralash')}catch(e){$('hinfo').textContent='Xatolik: '+(e.message||e.code||e)}
+ $('hgen').disabled=false};
+let pm={m:'focus',left:1500,on:false,iv:null};
+function beep(){try{const a=new AudioContext(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();setTimeout(()=>{o.stop();a.close()},400)}catch(e){}}
+function pshow(){$('ptm').textContent=fmt(pm.left);$('pmd').textContent=pm.m==='focus'?'🍅 Diqqat':'☕ Dam';$('pgo').textContent=pm.on?'⏸':'▶'}
+$('pgo').onclick=()=>{pm.on=!pm.on;clearInterval(pm.iv);if(pm.on)pm.iv=setInterval(()=>{pm.left--;if(pm.left<=0){beep();
+ if(pm.m==='focus'){ach.pomo++;saveA();act(3);pm.m='break';pm.left=300;toast('🍅 25 daqiqa tugadi! 5 daqiqa dam oling ☕')}else{pm.m='focus';pm.left=1500;toast('Dam tugadi — davom etamiz! 💪')}}pshow()},1000);pshow()};
+$('prs').onclick=()=>{clearInterval(pm.iv);pm={m:'focus',left:1500,on:false,iv:null};pshow()};pshow();
+
+async function shrink(f){const im=await createImageBitmap(f),k=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+ return new Promise((res,rej)=>c.toBlob(b=>b?res(b):rej(new Error('Rasm tayyorlanmadi')),'image/jpeg',.85))}
+$('picb').onclick=()=>$('pic').click();
+$('pic').onchange=async()=>{const fs=[...$('pic').files].slice(0,3);if(!fs.length)return;const s=await getSample($('pinfo'));if(!s)return;
+ $('picb').disabled=true;$('pinfo').textContent="⏳ Daftar o'qilmoqda…";
+ try{const bl=await Promise.all(fs.map(shrink));
+  const r=await s("Bu suratlarda talabaning daftari yoki kitob sahifasi bor. Undagi matnni aniq o'qib chiqar: tilini o'zgartirma, formulalar va ta'riflarni saqla, sahifalar tartibida yoz. Faqat o'qilgan matnni qaytar, izoh qo'shma. O'qib bo'lmaydigan joyni [o'qilmadi] deb belgila.",{images:bl,cache:false});
+  const t=r.text.trim(),d=S();d.notes=(d.notes?d.notes+'\n\n':'')+t;$('notes').value=d.notes;persist();
+  $('pinfo').textContent=`✅ ${t.length} belgi o'qildi va konspektga qo'shildi. Yuqoridagi maydonda tekshirib, xatolarini tuzating, so'ng savol va kartalar shundan tuziladi.`}
+ catch(e){const c=e&&e.code;$('pinfo').textContent=c==='images_unavailable'?"Bu oynada rasm yuborish yoqilmagan (kod: images_unavailable). Sahifani butunlay yopib qayta oching va ruxsatni tasdiqlang; ilovada ishlamasa, brauzerda (claude.ai) oching. Hozircha matnni qo'lda kiriting.":c==='not_granted'?"Ruxsat berilmadi. Sahifani qayta ochib, ruxsatni tasdiqlang.":'Xatolik: '+(c||'')+' '+((e&&e.message)||'')}
+ $('picb').disabled=false;$('pic').value=''};
+
+$('permb').onclick=async()=>{try{const pm=await claude.use('permissions');if(!pm){$('pinfo').textContent="Bu oynada ruxsatlar paneli yo'q. Sahifaning yuqoridagi menyusidan «Permissions / Ruxsatlar» ni qidiring.";return}
+ const t=await pm.state('sample');let L='?';try{const sm=await claude.use('sample');const l=await sm.limits();L=l.images?'rasm: BOR ('+l.images.mediaTypes.join(',')+')':'rasm: YOQ'}catch(e){L='limits xato: '+(e&&e.code||e)}$('pinfo').textContent='Holat: '+t+' · '+L;if(t!=='granted'){await pm.request(['sample']);await pm.manage()}}catch(e){$('pinfo').textContent="Ruxsatlar panelini ochib bo'lmadi: sahifaning menyusidan «Permissions» ni oching."}};
+shelf();hdr();
+(function(){const I=$('intro');let seen=false;try{seen=localStorage.getItem('seen')==='1';localStorage.setItem('seen','1')}catch(e){}
+ const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const close=()=>{I.classList.add('out');setTimeout(()=>I.remove(),700)};
+ if(rm){I.remove();return}
+ I.onclick=close;
+ if(seen){I.classList.add('quick');setTimeout(close,1500)}
+})();
+</script></body></html>
